@@ -12,81 +12,87 @@
 
 #include "push_swap.h"
 
-static int	count_words(char *s, char c)
+static int	ft_countwords(char const *s, char c)
 {
+	char	*str;
+	int		i;
+	int		in_word;
 	int		count;
-	bool	inside_word;
 
+	str = (char *)s;
 	count = 0;
-	while (*s)
+	i = 0;
+	in_word = 0;
+	while (str[i])
 	{
-		inside_word = false;
-		while (*s == c)
-			s++;
-		while (*s != c && *s)
+		if (str[i] == c)
 		{
-			if (!inside_word)
-			{
-				count++;
-				inside_word = true;
-			}
-			s++;
+			if (in_word)
+				in_word = 0;
 		}
+		else if (!in_word)
+		{
+			count++;
+			in_word = 1;
+		}
+		i++;
 	}
 	return (count);
 }
 
-static char	*get_next_word(char *s, char c)
+static int	ft_sizeword(char const *s, char c, int i)
 {
-	static int	cursor = 0;
-	char		*next_word;
-	int			len;
-	int			i;
+	char	*p;
+	int		size;
 
-	len = 0;
-	i = 0;
-	while (s[cursor] == c)
-		cursor++;
-	while ((s[cursor + len] != c) && s[cursor + len])
-		len++;
-	next_word = malloc((size_t)len * sizeof(char) + 1);
-	if (!next_word)
-		return (NULL);
-	while (i < len)
+	size = 0;
+	p = (char *)s;
+	while (p[i] && p[i] != c)
 	{
-		next_word[i] = s[cursor + i];
+		size++;
 		i++;
 	}
-	next_word[i] = '\0';
-	cursor += len;
-	return (next_word);
+	return (size);
+}
+
+static char	**ft_free(char **mat, int j)
+{
+	int	i;
+
+	i = 0;
+	while (i < j)
+	{
+		free(mat[i]);
+		i++;
+	}
+	free(mat);
+	return (NULL);
 }
 
 char	**split(char *s, char c)
 {
-	int		words_count;
-	char	**result_array;
-	int		i;
+	int			i;
+	int			j;
+	int			size;
+	char		*p;
+	char		**split;
 
-	i = 0;
-	words_count = count_words(s, c);
-	if (!words_count)
-		exit(1);
-	result_array = malloc(sizeof(char *) * (size_t)(words_count + 2));
-	if (!result_array)
+	p = (char *)s;
+	split = malloc((ft_countwords(s, c) + 1) * sizeof(char *));
+	if (!p || !(split))
 		return (NULL);
-	while (words_count-- >= 0)
+	i = 0;
+	j = -1;
+	while (++j < ft_countwords(s, c))
 	{
-		if (i == 0)
-		{
-			result_array[i] = malloc(sizeof(char));
-			if (!result_array[i])
-				return (NULL);
-			result_array[i++][0] = '\0';
-			continue ;
-		}
-		result_array[i++] = get_next_word(s, c);
+		while (p[i] == c)
+			i++;
+		size = ft_sizeword(s, c, i);
+		split[j] = ft_substr(s, i, size);
+		if (!split[j])
+			return (ft_free(split, j));
+		i += size;
 	}
-	result_array[i] = NULL;
-	return (result_array);
+	split[j] = 0;
+	return (split);
 }

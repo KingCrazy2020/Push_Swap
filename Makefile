@@ -4,7 +4,7 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -g
 
 SRC= $(addprefix sources/, $(SOURCES))
-SOURCES = init_a_to_b.c init_b_to_a.c push.c push_swap.c rev_rotate.c rotate.c rotate_both.c sort_stacks.c sort_three.c split2.c stack_init.c stack_utils.c swap.c handle_errors.c
+SOURCES = init_a_to_b.c init_b_to_a.c push.c push_swap.c rev_rotate.c rotate.c rotate_both.c sort_stacks.c sort_three.c split2.c stack_init.c stack_utils.c swap.c handle_errors.c free_errors.c
 
 OBJ_DIR = objects
 OBJECTS= $(addprefix $(OBJ_DIR)/, $(SRC:sources/%.c=%.o))

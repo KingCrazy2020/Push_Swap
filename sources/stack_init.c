@@ -87,16 +87,16 @@ void	init_stack_a(t_stack **a, char **argv)
 	{
 		if (error_syntax(argv[i]))
 		{
-			free_errors(a);
+			free_errors(a, argv);
 		}
 		n = ft_atol(argv[i]);
 		if (n > INT_MAX || n < INT_MIN)
 		{
-			free_errors(a);
+			free_errors(a, argv);
 		}
 		if (error_duplicate(*a, (int)n))
 		{
-			free_errors(a);
+			free_errors(a, argv);
 		}
 		append_node(a, (int)n);
 		i++;

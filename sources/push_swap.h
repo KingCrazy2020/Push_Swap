@@ -31,6 +31,7 @@ typedef struct s_stack_node
 
 //PUSH_SWAP
 void	final_cleaner(char **argv);
+void	sorting(char **a);
 
 //INIT_A_TO_B
 void	current_index(t_stack *stack);
@@ -84,7 +85,9 @@ void	ss(t_stack **a, t_stack **b, bool print);
 int		error_syntax(char *str_n);
 int		error_duplicate(t_stack *a, int n);
 void	free_stack(t_stack **stack);
-void	free_errors(t_stack **a);
+void	free_errors(t_stack **a, char **mat);
+int		count_sent(char **mat);
+char	**ft_frees(char **mat);
 
 //ROTATE_BOTH
 void	rotate_both(t_stack **a, t_stack **b, t_stack *cheapest_node);

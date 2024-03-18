@@ -12,13 +12,39 @@
 
 #include "push_swap.h"
 
+int	count_sent(char **mat)
+{
+	int	i;
+
+	i = 0;
+	while (mat[i])
+		i++;
+	i++;
+	return (i);
+}
+
+char	**ft_frees(char **mat)
+{
+	int	i;
+	int	j;
+
+	j = count_sent(mat);
+	i = 0;
+	while (i < j)
+	{
+		free(mat[i]);
+		i++;
+	}
+	free(mat);
+	return (NULL);
+}
+
 int	error_syntax(char *str_n)
 {
 	if (!(*str_n == '+' || *str_n == '-'
 			|| (*str_n >= '0' && *str_n <= '9')))
 		return (1);
-	if ((*str_n == '+'
-			|| *str_n == '-')
+	if ((*str_n == '+' || *str_n == '-')
 		&& !(str_n[1] >= '0' && str_n[1] <= '9'))
 		return (1);
 	while (*++str_n)
@@ -45,24 +71,14 @@ int	error_duplicate(t_stack *a, int n)
 void	free_stack(t_stack **stack)
 {
 	t_stack	*tmp;
-	t_stack	*current;
 
 	if (!stack)
 		return ;
-	current = *stack;
-	while (current)
+	while (*stack)
 	{
-		tmp = current->next;
-		current->nbr = 0;
-		free(current);
-		current = tmp;
+		tmp = (*stack)->next;
+		free(*stack);
+		*stack = tmp;
 	}
 	*stack = NULL;
-}
-
-void	free_errors(t_stack **a)
-{
-	free_stack(a);
-	ft_printf("Error\n");
-	exit(1);
 }
